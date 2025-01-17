@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "spark-prometheus-monitoring"
+version = "0.1.0"
+description = ""
+authors = ["matheusinit"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyspark = "^3.5.4"
+kagglehub = "^0.3.6"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

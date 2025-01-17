@@ -1,0 +1,49 @@
+services:
+  prometheus:
+    image: prom/prometheus:v2.36.2
+    volumes:
+      - ./observability/prometheus/:/etc/prometheus/
+      - prometheus_storage:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+    restart: always
+  spark-master:
+    image: bitnami/spark:3.3.4
+    ports:
+      - "7077:7077"  # Master UI port
+      - "8080:8080"  # Spark Web UI port
+    environment:
+      - SPARK_MODE=master
+      - SPARK_MASTER_WEBUI_BIND_ADDRESS=0.0.0.0
+      - SPARK_METRICS_ENABLED=true
+      - SPARK_WEBUI_SSL_PORT=8080      
+    #volumes:
+      #- ./spark/conf/metrics.properties:/opt/bitnami/spark/conf/metrics.properties # Adjust volume mount path
+
+  spark-worker:
+    image: bitnami/spark:3.3.4
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_METRICS_ENABLED=true
+      - SPARK_MASTER_WEBUI_BIND_ADDRESS=0.0.0.0
+      - SPARK_WEBUI_SSL_PORT=8080
+    ports:
+      - "8081:8080"
+    #volumes:
+     # - ./spark/conf/metrics.properties:/opt/bitnami/spark/conf/metrics.properties  # Adjust volume mount path
+
+
+networks:
+  spark-net:
+    driver: bridge 
+
+volumes:
+    prometheus_storage: {}
