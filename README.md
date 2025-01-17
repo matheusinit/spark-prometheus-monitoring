@@ -22,27 +22,27 @@ This project demonstrates how to run a Spark application in a Dockerized environ
 
 2. Build and run Docker containers:
 
-  ```bash
-   cd <repository_directory>
-   docker-compose up -d
-  ```
+   ```bash
+    cd <repository_directory>
+    docker-compose up -d
+   ```
 
 3. Verify Spark Master and Worker status:
 
- - Check the Docker logs for any errors.
- - Access the Spark Master UI in your browser (typically at http://localhost:8080).
+  - Check the Docker logs for any errors.
+  - Access the Spark Master UI in your browser (typically at http://localhost:8080).
 
 4. Access Prometheus Metrics:
 
- - Use a Prometheus client (e.g., curl, Prometheus server) to scrape metrics from:
+  - Use a Prometheus client (e.g., curl, Prometheus server) to scrape metrics from:
     - http://localhost:8080/metrics
     - http://localhost:8081/metrics
 
 ## Project Structure:
 
- - docker-compose.yml: Defines the Docker Compose configuration for Spark Master and Worker containers.
- - spark/conf/: Contains Spark configuration files (e.g., spark-defaults.conf).
- - spark/application.py: (Example) A sample PySpark application.
+ - `docker-compose.yml`: Defines the Docker Compose configuration for Spark Master and Worker containers.
+ - `spark/conf/`: Contains Spark configuration files (e.g., spark-defaults.conf).
+ - `spark/application.py`: (Example) A sample PySpark application.
 
 ## Prometheus Configuration (in spark/conf/spark-defaults.conf):
 
